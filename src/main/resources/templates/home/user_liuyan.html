@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>汽车4S维修保养平台</title>
+    <script src="/static/common/js/jquery-3.1.1.min.js"></script>
+    <style>
+        *{margin: 0;padding: 0;}
+
+        body{background-color: #fff;overflow-x:hidden;}
+
+        nav{width: 100%;height: 100px;position: relative;background-color:#fff;border-bottom: 1px solid #f5f5f5;}
+        .nav_box{width: 1200px;height: 100px;margin: auto;position: relative;}
+        .nav_box_left{width: 400px;height: 100%;position: absolute;left: 0;}
+        .nav_box_right{width:auto;height: 100%;position: absolute;right: 0;}
+        .nav_box_right ul{width: auto;height: 100px;}
+        .nav_box_right ul li{list-style: none;line-height: 100px;color: #fff;display: inline-block;}
+        .nav_box_right ul li a{text-decoration: none;color: #a4a4a4;font-size: 13px;margin: 0 15px;transition: ease .3s;font-weight: lighter;letter-spacing: 1px;}
+        .nav_box_right ul li a:hover{color: #f29718;}
+
+        .vin-form{width: 100%;height: 40px;margin: auto;padding: 25px 0;}
+        .vin-form-box{width: 460px;display: block;margin: auto;text-align: center; clear: both;}
+        .vin-form span{display: inline-block;float: left;}
+        .vin-form span input{line-height: 40px;color: #222;font-size: 14px;outline: none;}
+        .vin-input{width: 400px;height: 40px;text-indent: 20px;transition: ease .3s;border-radius: 8px 0 0 8px;border-bottom: 1px solid #eee;border-top: 1px solid #eee;border-left: 1px solid #eee;border-right: 1px solid rgb(29,130,254);}
+        .vin-input:focus{box-shadow: inset 0px 0px 20px 1px rgba(29,130,254,0.8);}
+        .vin-submit{width: 60px;background-color: rgb(29,130,254);border: none;color: #fff!important;height: 40px;cursor: pointer;border-radius: 0 8px 8px 0;transition: ease .3s;}
+        .vin-submit:hover{background-color: rgba(29,130,254,0.8);}
+
+        .v3-footer {
+            background: #202024;
+            font-size: 12px;
+            padding: 40px 0 200px 0;
+        }
+        .v3-footer .v3-footer-content .v3-footer-l .v3-footer-d li {
+            float: left;
+            line-height: 32px;
+            list-style: none;
+        }
+        .v3-footer .v3-footer-info {
+            width: 1200px;
+            margin: 0 auto;
+            padding: 28px 0;
+            border-bottom: 1px solid #2d2d33;
+        }
+        .v3-footer .v3-footer-info .v3-footer-nav {
+            float: left;
+        }
+        .clearfix {
+            display: block;
+            zoom: 1;
+        }
+        .v3-footer .v3-footer-info .v3-footer-nav a {
+            float: left;
+            line-height: 32px;
+            margin-right: 20px;
+            font-size: 16px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .v3-footer .v3-footer-info .v3-footer-contract {
+            float: right;
+        }
+        .v3-footer .v3-footer-info .v3-footer-contract .v3-footer-qq-link, .v3-footer .v3-footer-info .v3-footer-contract .v3-footer-tel {
+            float: left;
+            height: 32px;
+            line-height: 32px;
+            font-size: 14px;
+            color: #717274;
+        }
+        .v3-footer .v3-footer-info .v3-footer-contract .v3-footer-qq-link, .v3-footer .v3-footer-info .v3-footer-contract .v3-footer-tel {
+            float: left;
+            height: 32px;
+            line-height: 32px;
+            font-size: 14px;
+            color: #717274;
+        }
+        .v3-footer .v3-footer-info .v3-footer-contract .v3-footer-tel .tel-num {
+            font-size: 16px;
+            color: #ff9000;
+            display: inline-block;
+            padding-left: 10px;
+            text-decoration: none;
+        }
+        .v3-footer .v3-footer-content {
+            width: 1200px;
+            margin: 28px auto 0;
+        }
+        .v3-footer .v3-footer-content .v3-footer-l {
+            float: left;
+        }
+        .v3-footer .v3-footer-content .v3-footer-code {
+            float: right;
+        }
+        .v3-footer .v3-footer-content .v3-footer-l .v3-footer-d {
+            height: 78px;
+        }
+        .v3-footer .v3-footer-content .v3-footer-l .v3-footer-d .title {
+            float: none;
+            line-height: 14px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #828282;
+            margin-right: 20px;
+        }
+        .v3-footer .v3-footer-content .v3-footer-l .v3-footer-d .title {
+            float: none;
+            line-height: 14px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #828282;
+            margin-right: 20px;
+        }
+        .v3-footer .v3-footer-content .v3-footer-l .v3-footer-d li a {
+            margin-right: 20px;
+            font-size: 12px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .v3-footer .v3-footer-content .v3-footer-code {
+            float: right;
+        }
+        .v3-footer .v3-footer-content .v3-footer-code .code {
+            width: 88px;
+            margin-right: 0;
+            margin-left: 40px;
+            float: left;
+            font-size: 0;
+        }
+        .v3-footer .v3-footer-content .v3-footer-code .code img {
+            width: 88px;
+            transition: .1s transform;
+            transform: translateZ(0);
+        }
+        .v3-footer .v3-footer-content .v3-footer-code .code p {
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            padding: 0;
+            font-size: 14px;
+            color: #77787a;
+        }
+        .v3-footer .foot-link-list {
+            width: 1200px;
+            height: 110px;
+            margin: 0 auto;
+            position: relative;
+            font-size: 14px;
+        }
+        .v3-footer .foot-link-list .page-link {
+            display: inline-block;
+        }
+        .v3-footer .foot-icp {
+            width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 10px 0 0 0;
+            font-size: 12px;
+            color: #7f7f7f;
+        }
+        .v3-footer .foot-link-list .page-link .link-title {
+            line-height: 1.125;
+        }
+        .v3-footer .foot-link-list .link-title span[data-target*=c] {
+            position: relative;
+        }
+        .v3-footer .foot-link-list .link-title .active .z {
+            display: block;
+        }
+        .v3-footer .foot-link-list .link-content {
+            margin-top: 15px;
+            height: 90px;
+        }
+        .v3-footer .foot-link-list .link-content ul {
+            float: left;
+            width: 1200px;
+            max-width: inherit;
+            line-height: 36px;
+            padding-left: 20px;
+            font-size: 12px;
+            color: #b2b2b2;
+            background-color: #2d2d33;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .foot-link-list .link-content ul {
+            float: left;
+            max-width: 1024px;
+            line-height: 36px;
+            padding-left: 20px;
+            font-size: 12px;
+            color: #b2b2b2;
+            background-color: #2d2d33;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        table{font-size: 14px;}
+    </style>
+    <link rel="stylesheet" href="/static/common/css/amazeui.min.css">
+</head>
+<body>
+<nav>
+    <div class="nav_box">
+        <div class="nav_box_left">
+            <a href="/Home/index">
+                <img src="/static/common/img/logo.jpg" height="60" style="margin-top: 15px">
+            </a>
+        </div>
+        <div class="nav_box_right">
+            <ul>
+                <li><a href="/Home/index">首页</a></li>
+                <li th:if="${session.user} eq null"><a href="/Home/login">个人登录</a></li>
+                <li th:if="${session.user} ne null"><a href="javascript:void(0)" th:utext="'<b>'+${session.user.getTruename()}+' 已登录</b>'"/></li>
+                <li th:if="${session.user} ne null"><a href="/Home/loginOut">退出登录</a></li>
+                <li><a href="/Home/myMakrs">我的维修保养记录</a></li>
+                <li><a href="/Home/myComments">我的留言咨询记录</a></li>
+                <li><a href="javascript:void(0)" class="liuyan_btn">留言</a></li>
+                <li><a href="javascript:void(0)">帮助中心</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div style="width: 1200px;height: auto;margin: 150px auto 150px auto;">
+    <table class="table am-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th style="text-align: center;">会员</th>
+            <th style="text-align: center;">标题</th>
+            <th style="text-align: center;width: 10%">状态</th>
+            <th style="text-align: center;">创建时间</th>
+            <th style="text-align: center;width:15%;">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="project:${pageInfo.getList()}">
+            <td th:text="${project.get('lid')}"/>
+            <td style="text-align: center;" th:text="${project.get('truename')}"/>
+            <td style="text-align: center;" th:text="${project.get('title')}"/>
+            <td style="text-align: center;width: 10%" th:text="'-'" th:if="${project.get('status')} eq 1"/>
+            <td style="text-align: center;width: 10%" th:text="'已回复'" th:if="${project.get('status')} eq 0"/>
+            <td style="text-align: center;" th:text="${project.get('createat')}"/>
+
+            <td style="text-align: center;width:15%;">
+                <a class="active my_a_style" style="padding: 0 10px;font-size: 14px;" th:href="'/Home/ChakanLiuyan?id='+${project.get('lid')}" th:text="查看"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <style>
+        .content_info_page{width: 100%;height: 37px;margin: 0px auto 50px auto;text-align: center;}
+        .commom{width:auto;text-decoration: none;padding: 2px 5px;border:1px solid #bbb;transition: ease .3s;color:#00aced;display:inline-block;font-size:13px;text-align:center;line-height:25px;}
+        .commom_not{cursor:not-allowed;color:#bbb;border:1px solid #bbb;}
+        .content_info_page a:hover{color: #01AAED;}
+        .active{color: #01AAED;}
+        .commom_not:hover{color:#bbb!important;}
+
+        .content_head{width: 100%;height: 64px;border-bottom: 1px solid #ddd;}
+        .content_head a{color:steelblue;display: inline-block;text-decoration: none;padding: 5px 20px;background-color: #fff;border:2px solid steelblue;font-size: 13px;;text-align: center;transition: ease .3s;}
+        .content_head a:hover{background-color: steelblue;color: #fff;}
+    </style>
+    <div class="content_info_page" th:if="${pageInfo.getList().size()} != 0">
+        <a class="commom" th:text="上一页" th:href="'/Admin/liuyan?pageNo='+${pageInfo.getPrePage()}" th:if="${pageInfo.isHasPreviousPage()} eq true"/>
+        <a class="commom commom_not" th:text="上一页" href="javascript:void(0)" th:if="${pageInfo.isHasPreviousPage()} eq false"/>
+        <a class="commom active" style="border: none;" href="javascript:void(0)" th:text="${pageInfo.pageNum}">1</a>
+        <a class="commom" th:text="下一页" th:href="'/Admin/liuyan?pageNo='+${pageInfo.getNextPage()}" th:if="${pageInfo.isHasNextPage()} eq true"/>
+        <a class="commom commom_not" th:text="下一页" href="javascript:void(0)" th:if="${pageInfo.isHasNextPage()} eq false"/>
+    </div>
+</div>
+
+<div class="v3-footer" style="padding: 40px 0 280px 0;">
+    <div class="v3-footer-info clearfix">
+        <div class="v3-footer-nav clearfix">
+            <a href="javascript:void(0)" target="_blank" rel="nofollow">关于我们</a>
+            <a href="javascript:void(0)" target="_blank" rel="nofollow">联系我们</a>
+            <a href="javascript:void(0)" target="_blank" rel="nofollow">加入我们</a>
+            <a href="javascript:void(0)" target="_blank" rel="nofollow">问题反馈</a>
+        </div>
+        <div class="v3-footer-contract">
+            <div class="v3-footer-tel">
+                <span>客服支持</span>
+                <a class="tel-num" href="mailto:service@iautos.cn" target="_blank">service@吃草.cn</a>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="v3-footer-content clearfix">
+        <div class="v3-footer-l">
+            <ul class="v3-footer-d clearfix">
+                <li class="title">交易流程</li>
+                <li><a href="javascript:void(0)" target="_blank">购车注意事项</a></li>
+                <li><a href="javascript:void(0)" target="_blank">卖车流程</a></li>
+                <li><a href="javascript:void(0)" target="_blank">车型大全</a></li>
+                <li><a href="javascript:void(0)" target="_blank">入驻第一车网 </a></li>
+                <li><a href="javascript:void(0)" target="_blank">车网通手机端</a></li>
+                <li><a href="javascript:void(0)" target="_blank">隐私保护规则</a></li>
+
+            </ul>
+            <ul class="v3-footer-d clearfix">
+                <li class="title">工具服务</li>
+                <li><a href="javascript:void(0)" target="_blank" rel="nofollow">车险查询</a></li>
+                <li><a href="javascript:void(0)" target="_blank" rel="nofollow">VIN查询</a></li>
+                <li><a href="javascript:void(0)" target="_blank" rel="nofollow">违章查询</a></li>
+                <li><a href="javascript:void(0)" target="_blank" rel="nofollow">维修保养查询</a></li>
+                <li><a href="javascript:void(0)" target="_blank" rel="nofollow">保值率查询</a></li>
+                <li><a href="javascript:void(0)" target="_blank" rel="nofollow">各地准入标准</a></li>
+                <li><a href="javascript:void(0)" target="_blank" rel="nofollow">二手车评估</a></li>
+                <li><a href="javascript:void(0)" target="_blank" rel="nofollow">贷款计算器</a></li>
+            </ul>
+        </div>
+        <div class="v3-footer-code clearfix">
+            <div class="code">
+                <img src="/static/common/img/wx.jpg" alt="微信客服" title="微信客服">
+                <p>微信客服</p>
+            </div>
+            <div class="code">
+                <img src="/static/common/img/wx.jpg" alt="微信公众号二维码" title="微信公众号二维码">
+                <p>微信公众号</p>
+            </div>
+        </div>
+    </div>
+    <div class="foot-link-list">
+        <div class="page-link tab_wrapper_js">
+            <div class="link-content tab_content_js clearfix">
+                <ul data-letter="c1">
+                    <p style="text-align: center;">第一车网汽车工具大全频道,为您提供车架号查询,VIN查询,17位车架号查询网站服务,全面的汽车工具,随时为您提供帮忙,使您购车无忧,更多车况信息查询,尽在第一车网汽车工具频道.</p>
+                </ul>
+            </div>
+        </div>
+        <p align="center"><a href="/Admin/login" style="color:#fff;text-decoration: none;">汽车4S店维修保养管理系统 - 后台登录入口</a></p>
+    </div>
+</div>
+
+<!--留言-->
+<div class="card" style="width: 600px;height: 250px;box-shadow: 0 10px 30px 0 rgba(0,0,0,.1);display: none;background-color: #fff;transition: ease .3s;border-radius: 5px;position: absolute;top: 50px;bottom: 0;left: 0;right: 0;margin: auto;">
+    <div style="width: 100%;height: 100%;position: absolute;">
+        <span class="close fa fa-times" style="position: absolute;font-size: 20px;right: 5px;top: 5px;padding: 5px;text-align: center;border-radius: 5px;cursor: pointer;width: 30px;height: 30px;transform: scale(1.2,1);">x</span>
+        <div class="card-body">
+            <form class="form-horizontal form-material" action="/Home/liuyanAction" method="post">
+
+                <div class="form-group">
+                    <label class="col-md-12" style="padding: 15px;display: block;font-size: 14px;">留言标题</label>
+                    <div class="col-md-12">
+                        <input type="text" style="font-size: 14px;background-color: #fff;text-indent: 15px;width: 520px;height: 30px;border-radius: 5px;margin: 0 40px;outline: none;border: 1px solid #ddd;" placeholder="请输入标题" maxlength="50" required name="title" autocomplete="off" class="form-control form-control-line">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-12" style="padding: 15px;display: block;font-size: 14px;">留言内容</label>
+                    <div class="col-md-12">
+                        <input type="text" style="font-size: 14px;background-color: #fff;text-indent: 15px;width: 520px;height: 30px;border-radius: 5px;margin: 0 40px;outline: none;border: 1px solid #ddd;" placeholder="请输入内容" maxlength="50" required name="content" autocomplete="off" class="form-control form-control-line">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input class="btn btn-success" style="width: 520px;margin: 20px 40px;background-color: rgb(29,130,254);border: none;color: #fff!important;height: 40px;cursor: pointer;border-radius: 8px;transition: ease .3s;" type="submit" value="完成"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(".liuyan_btn").click(function () {
+        $(".card").fadeIn(100);
+        $(".card").css("cssText","width: 600px;height: 250px;background-color: #fff;transition: ease .3s;box-shadow: 0 10px 30px 0 rgba(0,0,0,.1);border-radius: 5px;position: absolute;top: 0;bottom: 0;left: 0;right: 0;margin: auto;");
+    });
+
+    $(".close").click(function () {
+        $(".card").fadeOut(100);
+        $(".card").css("cssText","width: 600px;height: 250px;background-color: #fff;transition: ease .3s;box-shadow: 0 10px 30px 0 rgba(0,0,0,.1);border-radius: 5px;position: absolute;top: 50px;bottom: 0;left: 0;right: 0;margin: auto;");
+    });
+</script>
+</body>
+</html>
